@@ -4,15 +4,31 @@ This repository contains a Python application that solves a 4×4 grid puzzle (Su
 
 ## 📖 Overview
 
-The application fills a 4×4 grid with four distinct letters so that each row, column, and 2×2 sub‑grid contains each letter exactly once. Users provide a partially completed grid and choose any four distinct letters (including the pre‑filled ones). The GA evolves candidate solutions until a valid grid is found or the maximum attempts are reached.
+The application generates a random 4×4 puzzle with three clues and allows the user to choose any four distinct letters for the puzzle. The GA evolves candidate grids so that each row, column, and 2×2 sub‑grid contains each letter exactly once. All fixed cells are respected, and only valid, solvable puzzles are offered for solving.
 
 ## ✅ Features
 
 * Accept any user‑specified set of four distinct letters.
-* Honor fixed cells from the user’s initial puzzle.
+* Honor fixed cells from the system-generated puzzle.
 * Enforce uniqueness constraints for rows, columns, and 2×2 sub‑grids.
-* Retry up to three GA runs with tuned hyperparameters if no perfect solution is found on the first attempt.
-* PEP8‑compliant code with comprehensive docstrings and inline comments.
+* Pre-check that every puzzle is solvable before GA begins.
+* Find all unique valid solutions for a puzzle, not just one.
+* Print detailed progress and show all solutions found.
+* Provide clear, user-friendly diagnostics if no solution is found.
+* Modular, PEP8‑compliant code with comprehensive docstrings and inline comments.
+* Clean, maintainable file structure for easy extension.
+
+## 🗂 Project Structure
+
+```bash
+genetic_sudoku/
+│
+├── main.py           # Entry point; user interaction, puzzle setup, result display
+├── grid_utils.py     # Grid generation, input, Sudoku logic, and solvability check
+├── fitness.py        # Fitness calculation, gene space building, and validation
+├── ga_solver.py      # Genetic Algorithm setup, solution tracking, progress
+└── README.md
+```
 
 ## ⚙️ Requirements
 
@@ -44,40 +60,58 @@ pip install numpy pandas pygad
    ```bash
    python main.py
    ```
-2. When prompted, enter **4 distinct letters** without separators, ensuring you include the existing pre‑filled ones (displayed in the prompt).
-3. The program will print:
-
-   * **Best fitness** (max = 48)
-   * **Solved grid** in array form
-   * **Validity** check (True/False)
+2. When prompted, enter 4 distinct letters without separators.
+3. Review the automatically generated grid (with three random clues). Confirm or regenerate as you wish.
+4. The program will print:
+* Progress bar (%)
+* All found solutions in readable grid form
+* Fitness (max = 48)
+* Validity check (True/False)
+* If no solution is found, detailed diagnostics and suggestions.
 
 ### Example
 
 ```bash
-Enter 4 distinct letters (no separators), and include these existing ones: ['W', 'O', 'R']: WORX
+Enter 4 distinct letters (no separators): WORX
 
-Best fitness: 48
-Solved Grid:
+Initial grid setting:
+[['-' '-' '-' 'O']
+ ['-' 'X' '-' '-']
+ ['O' '-' '-' '-']
+ ['-' '-' 'W' '-']]
+is_grid_solvable returned: True
+Press 'y' to confirm and start solving, or 'n' to re-generate initial grid: y
+
+Solving the puzzle now:
+0%...1%...2%...
+I found one solution!
+...
+I found all solutions
+
+--- Solution 1 ---
 [['W' 'O' 'R' 'X']
  ['R' 'X' 'W' 'O']
  ['O' 'R' 'X' 'W']
  ['X' 'W' 'O' 'R']]
-Valid solution? True
+Fitness: 48
+Valid: True
+
+Total unique solutions found: 2
 ```
 
 ## 🔧 Configuration
 
-* **Hyperparameters** can be tuned in `main()`:
-
+* **Hyperparameters** can be tuned in `ga_solver.py`:
   * `sol_per_pop` (population size)
   * `num_generations`
   * `mutation_percent_genes`
   * `parent_selection_type`, `crossover_type`, etc.
-* **Attempts** parameter controls how many GA restarts are allowed.
+* You can also adjust how clues are generated or how many generations to use for advanced users.
 
 ## ⚙️ Implementation Details
 
-* **Data structures**: The grid is represented as a flat list of 16 integers (0–3) mapped from letters.
-* **Fitness**: Penalizes duplicate letters in rows, columns, and blocks. Perfect score = 48.
-* **Early stop**: The GA stops when a solution with fitness 48 is found.
-* **PEP8 compliance**: Code is broken into functions with docstrings and clear comments.
+* Data structures: The grid is represented as a flat list of 16 integers (0–3) mapped to the four user-selected letters.
+* Fitness: Penalises duplicate letters in rows, columns, and blocks. Perfect score = 48.
+* All-solutions search: The GA runs for all generations, collecting every unique valid solution found.
+* Diagnostics: If no solution is found, the program prints detailed possible causes and next steps.
+* PEP8 compliance: All code is modular, with docstrings, inline comments, and clear structure.
