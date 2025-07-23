@@ -40,7 +40,7 @@ genetic_sudoku/
 Install dependencies via:
 
 ```bash
-pip install numpy pandas pygad
+pip install -r requirements.txt
 ```
 
 ## 🛠 Installation
