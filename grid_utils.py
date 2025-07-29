@@ -88,3 +88,14 @@ def is_grid_solvable(grid, allowed_vals):
                 grid[r, c] = -1                       # Backtrack if dead end
         return False                                  # No valid value found: backtrack
     return dfs()                                      # Start recursion from position 0
+
+# =====================================
+# Check for target word along any edge
+# =====================================
+
+def contains_word_on_edges(grid, target_word):
+    top_row = ''.join(grid[0])                          # Get the top row as a string
+    bottom_row = ''.join(grid[3])                       # Get the bottom row as a string
+    left_col = ''.join([row[0] for row in grid])        # Get the left column as a string
+    right_col = ''.join([row[3] for row in grid])       # Get the right column as a string
+    return any(edge == target_word for edge in [top_row, bottom_row, left_col, right_col])  # Return True if the target word matches any of the edge strings
