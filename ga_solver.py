@@ -30,7 +30,7 @@ def run_ga_solver(gene_space, letter_to_int, int_to_letter):
             if fitness_func(None, solution, None) == 48:       # If it's a perfect solution
                 key = tuple(grid.flatten())    # Use flattened tuple as unique key
                 if key not in solutions:       # Only collect if new
-                    print("\nI find one solution!")
+                    print("\nI found one solution!")
                     solutions.add(key)         # Add to set of solutions
                     decoded = np.vectorize(int_to_letter.get)(grid) # Decode grid to letters
                     decoded_solutions.append(decoded)          # Save decoded solution
