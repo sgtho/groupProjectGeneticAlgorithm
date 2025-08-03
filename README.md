@@ -113,6 +113,9 @@ To run the end-to-end tests, run:
 python -m unittest discover -s tests/e2e
 ```
 
+Note that end-to-end tests run a genetic algorithm which effectively relies on probabilities when solving the problem.
+It could be that you run the tests and in some rare cases one of them might fail. If that happens please re-run them.
+
 ## 🔧 Configuration
 
 * **Hyperparameters** can be tuned in `ga_solver.py`:
