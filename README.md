@@ -40,7 +40,7 @@ genetic_sudoku/
 Install dependencies via:
 
 ```bash
-pip install -r requirements.txt
+pip install numpy pandas pygad
 ```
 
 ## 🛠 Installation
@@ -97,6 +97,20 @@ Fitness: 48
 Valid: True
 
 Total unique solutions found: 2
+```
+
+### Running tests
+
+Tests are slpit into two parts: Unit tests and End to End tests. End-to-end tests take longer to run but test the algorithm with multiple cases and run the full GA process. Unit tests are much faster and test individual components.
+
+To run the unit tests, run:
+```bash
+python -m unittest discover -s tests/unit
+```
+
+To run the end-to-end tests, run:
+```bash
+python -m unittest discover -s tests/e2e
 ```
 
 ## 🔧 Configuration
